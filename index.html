@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROGA - Hydroizolácie</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --dark-gray: #4a4d4b;
+            --light-teal: #bed1ce;
+            --bg-color: #f4f6f5;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: sans-serif;
+        }
+
+        /* ROVNAKÝ FONT PRE NADPISY, INÁ HRÚBKA */
+        .font-comfortaa-bold {
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 700;
+        }
+        
+        .font-comfortaa-light {
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 400;
+        }
+
+        .font-bankgothic {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .top-illustration {
+            height: 150px;
+            background-color: white;
+            background-image: url('budovy.jpg'); 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .title-bar {
+            display: flex;
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 10px 0;
+        }
+        .title-bar .logo {
+            width: 25%;
+            text-align: center;
+            font-size: 32px;
+            border-right: 1px solid white;
+        }
+        .title-bar .main-title {
+            width: 75%;
+            padding-left: 20px;
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+        }
+
+        .middle-section {
+            display: flex;
+            height: 300px;
+        }
+        .left-img-box {
+            width: 25%;
+            background-color: #ccc;
+            background-image: url('antena.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .center-services {
+            width: 50%;
+            background-color: #999;
+            background-image: url('strecha-pozadie.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .center-services ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .center-services li {
+            font-size: 24px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        .center-services li::before {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: var(--light-teal);
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .right-contact {
+            width: 25%;
+            background-color: var(--light-teal);
+            padding: 20px;
+            font-size: 13px;
+            color: var(--dark-gray);
+            box-sizing: border-box;
+            border-left: 5px solid white;
+            line-height: 1.6;
+        }
+
+        .offers-section {
+            background-color: var(--dark-gray);
+            background-image: url('ponuka-pozadie.jpg');
+            background-size: cover;
+            background-blend-mode: overlay;
+            color: var(--light-teal);
+            padding: 25px;
+        }
+        .offers-section h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+        .offers-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .offers-section li {
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 0;
+            font-size: 13px;
+            color: white;
+        }
+
+        .bottom-section {
+            display: flex;
+            padding: 20px;
+            background-color: var(--light-teal);
+            gap: 20px;
+        }
+        .phone-box, .gallery-box {
+            background-color: white;
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--dark-gray);
+        }
+        .phone-box .inner-dark {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-top: 15px;
+        }
+        
+        /* GALÉRIA - tlačidlo na otvorenie */
+        .gallery-box {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .gallery-box:hover {
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .gallery-box .gallery-grid {
+            height: 75px;
+            background-color: #ddd;
+            margin-top: 15px;
+            background-image: url('galeria-mozaika.jpg');
+            background-size: cover;
+        }
+
+        /* VYSKAKOVACIE OKNO PRE GALÉRIU (Lightbox) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            position: relative;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+        .modal-content img {
+            width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            padding: 15px;
+            margin-top: -25px;
+            color: white;
+            font-weight: bold;
+            font-size: 30px;
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 3px;
+            user-select: none;
+        }
+        .prev:hover, .next:hover {
+            background-color: var(--light-teal);
+            color: var(--dark-gray);
+        }
+        .prev { left: -50px; }
+        .next { right: -50px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="top-illustration"></div>
+
+    <div class="title-bar">
+        <!-- Zjednotený font pre nadpis -->
+        <div class="logo font-comfortaa-light">ROGA</div>
+        <div class="main-title font-comfortaa-bold">Hydroizolácie plochých striech</div>
+    </div>
+
+    <div class="middle-section">
+        <div class="left-img-box"></div>
+        <div class="center-services">
+            <ul class="font-comfortaa-bold">
+                <li>Hydroizolácie a zateplenia</li>
+                <li>Nátery</li>
+                <li>Opravy a rekonštrukcie</li>
+                <li>Poradenstvo na mieru</li>
+            </ul>
+        </div>
+        <div class="right-contact font-bankgothic">
+            <strong>KONTAKT:</strong><br><br>
+            ROMAN GÁLIS<br>
+            ŠTEFÁNIKOVÁ<br>
+            693 KRUŠOVCE<br><br>
+            PODROBNEJŠIE INFORMÁCIE<br>
+            NA TEL. Č.<br>
+            <strong>0905 662 229</strong>
+        </div>
+    </div>
+
+    <div class="offers-section font-bankgothic">
+        <h3>ČO PONÚKAME:</h3>
+        <ul>
+            <li>ŠPECIALIZUJEME SA NAJMÄ NA HYDROIZOLÁCIE RODINNÝCH DOMOV</li>
+            <li>KVALITNE KAUČUKOVÉ IZOLÁCIE A PVC FÓLIE</li>
+            <li>ZAMERANIE A VYPRACOVANIE CENOVEJ PONUKY JE NEZÁVÄZNÉ A ZDARMA</li>
+            <li>PRAX 30 ROKOV</li>
+            <li>ZÁRUKA NA PRÁCU AŽ 12 ROKOV</li>
+            <li>ŽIVOTNOSŤ MATERIÁLOV 40 ROKOV</li>
+        </ul>
+    </div>
+
+    <div class="bottom-section">
+        <div class="phone-box">
+            <div class="font-bankgothic" style="font-size: 11px; font-weight: bold; line-height: 1.4; color: var(--dark-gray);">
+                BEZPLATNÁ KONZULTÁCIA A OBHLIADKA<br>OBJEKTU S POSÚDENÍM AKTUÁLNEHO STAVU.
+            </div>
+            <div class="inner-dark font-comfortaa-bold">
+                0905 662 229
+            </div>
+        </div>
+        
+        <!-- Pridaný 'onclick' pre otvorenie galérie -->
+        <div class="gallery-box" onclick="otvorGaleriu()">
+            <div class="font-bankgothic" style="font-size: 13px; font-weight: bold; color: var(--dark-gray);">
+                GALÉRIA NAŠEJ PRÁCE
+            </div>
+            <div class="gallery-grid"></div>
+        </div>
+    </div>
+</div>
+
+<!-- SKRYTÉ OKNO GALÉRIE -->
+<div id="galeriaModal" class="modal">
+    <span class="close-btn" onclick="zatvorGaleriu()">&times;</span>
+    <div class="modal-content">
+        <a class="prev" onclick="zmenObrazok(-1)">&#10094;</a>
+        <img id="modalObrazok" src="" alt="Galéria ROGA">
+        <a class="next" onclick="zmenObrazok(1)">&#10095;</a>
+    </div>
+</div>
+
+<!-- JAVASCRIPT PRE GALÉRIU -->
+<script>
+    // TU SI DOPLŇ NÁZVY TVOJICH FOTIEK PRE POSÚVANIE:
+    const obrazky = [
+        'galeria1.jpg', 
+        'galeria2.jpg',
+        'galeria3.jpg'
+    ];
+    let aktualnyIndex = 0;
+
+    function otvorGaleriu() {
+        document.getElementById("galeriaModal").style.display = "block";
+        ukazObrazok(aktualnyIndex);
+    }
+
+    function zatvorGaleriu() {
+        document.getElementById("galeriaModal").style.display = "none";
+    }
+
+    function zmenObrazok(krok) {
+        aktualnyIndex += krok;
+        if (aktualnyIndex >= obrazky.length) aktualnyIndex = 0;
+        if (aktualnyIndex < 0) aktualnyIndex = obrazky.length - 1;
+        ukazObrazok(aktualnyIndex);
+    }
+
+    function ukazObrazok(index) {
+        document.getElementById("modalObrazok").src = obrazky[index];
+    }
+</script>
+
+</body>
+</html>
